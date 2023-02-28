@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     }
     boolean toggle = false;
     public void toggle(View view) {
-        TextView label = findViewById(R.id.lblToggle);
+       TextView label = findViewById(R.id.lblToggle);
        toggle = !toggle;
        if(toggle) {
            label.setText("Bed Shaker ON");
