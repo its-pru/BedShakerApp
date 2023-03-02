@@ -17,5 +17,6 @@ public class switchApiTest {
     public void connectionTest() throws IOException {
         Switch testSwitch = new Switch(0);
         assertTrue(testSwitch.TurnOn());
+        testSwitch.getStatus();
     }
 }
