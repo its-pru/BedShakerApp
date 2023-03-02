@@ -18,7 +18,7 @@ public class Switch {
         try {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-            //conn.setRequestMethod("GET");
+            conn.setRequestMethod("GET");
             conn.connect();
             int responseCode = conn.getResponseCode();
 
@@ -36,7 +36,7 @@ public class Switch {
         try {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-            //conn.setRequestMethod("GET");
+            conn.setRequestMethod("GET");
             conn.connect();
             int responseCode = conn.getResponseCode();
 
