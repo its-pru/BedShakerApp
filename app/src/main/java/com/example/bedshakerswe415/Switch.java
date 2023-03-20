@@ -37,7 +37,8 @@ public class Switch {
     }
 
     public String getStatus() throws IOException {
-        URL url = new URL("http://192.168.33.1/rpc/Switch.GetStatus?id=" + id);
+        privateIP = "";
+        URL url = new URL("http://192.168.33.1/rpc/WiFi.GetStatus?id=" + id);
         try {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
@@ -57,6 +58,9 @@ public class Switch {
 
                 System.out.println(informationString);
                 privateIP = parseGetStatus(informationString);
+                if(privateIP.equals("ull,")){
+                    return "192.168.33.1";
+                }
                 return privateIP;
             }
         } catch (IOException e) {
@@ -70,7 +74,7 @@ public class Switch {
     }
 
     public boolean setConfig() throws IOException {
-        URL url = new URL("http://192.168.33.1/rpc/WiFi.SetConfig?config={\"sta\":{\"ssid\":\"4 Middle spring 2.4ghz\",\"pass\":\"Shipsoccer2019!\",\"enable\":true}}");
+        URL url = new URL("http://192.168.33.1/rpc/WiFi.SetConfig?config={\"sta\":{\"ssid\":\"Fios-V9QV4\",\"pass\":\"bond832sad5073copy\",\"enable\":true}}");
         try {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
@@ -98,7 +102,7 @@ public class Switch {
     }
 
     private String parseGetStatus(StringBuilder informationString) {
-        for(int i=10;i <informationString.length();i++) {
+        for(int i=11;i <informationString.length();i++) {
             if (informationString.charAt(i) != '"') {
                 privateIP = privateIP + informationString.charAt(i);
             } else if(informationString.charAt(i) == '"'){

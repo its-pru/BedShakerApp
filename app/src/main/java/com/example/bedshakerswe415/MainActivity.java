@@ -15,8 +15,8 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     Switch switch1 = new Switch(0);
-    SharedPreferences sharedpreferences;
-    public static final String SHARED_PREFS = "shared_prefs";
+    public static final String SHARED_PREFS = "shared_Prefs";
+    public static final String TEXT = "text";
     String ipCheck = "";
 
     @Override
@@ -26,9 +26,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        //ipCheck = sharedpreferences.getString("IP_KEY", "");
-        ipCheck = "10.0.0.237";
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        ipCheck = sharedPreferences.getString(TEXT, "");
+        //ipCheck = "10.0.0.237";
         switch1.setPrivateIP(ipCheck);
         //System.out.println(ipCheck);
 
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
             String IP;
             try {
                 IP = switch1.getStatus();
+                System.out.println(IP);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -43,6 +44,11 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     switch1.setConfig();
                 } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
                 try {
@@ -84,14 +90,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void saveMessage(String IP) {
+        SharedPreferences sharedpreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
         // below lines will put values for
         // message in shared preferences.
-        editor.putString("IP_KEY", IP);
+        editor.putString(TEXT, IP);
         // to save our data with key and value.
         editor.apply();
         // on below line we are displaying a toast message after adding data to shared prefs.
-        Toast.makeText(this, "Message saved to Shared Preferences", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Message saved to Shared Preferences", Toast.LENGTH_SHORT).show();
         // after that we are setting our edit text to empty
         //messageEdt.setText("");
     }
