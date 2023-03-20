@@ -9,10 +9,12 @@ import android.widget.Toast;
 
 public class ReceiveSms extends BroadcastReceiver {
 
+    // If False, then the phone doesn't check the number sending the text, only the message
+    private boolean checkSender = false;
     // Contains a list of numbers which the app registers as a person that can send the wake up text
     private String validSenders[] = {"6505551212"};
     // The text string which the sender should send to activate the device
-    private String activateText = "SHAKE";
+    private String activateText = "Hello";
 
     /**
      * Checks if the sender is a person that can send a text to this phone, and the text be registered.
@@ -57,7 +59,7 @@ public class ReceiveSms extends BroadcastReceiver {
 
                         // LOGIC FOR RECEIVING A MESSAGE
                         msgFrom = msgs[i].getOriginatingAddress();
-                        if (isValidSender(msgFrom)) {
+                        if (!checkSender || isValidSender(msgFrom)) {
                             String msgBody = msgs[i].getMessageBody();
                             if (msgBody.equals(activateText)) {
                                 // Makes the small pop up appear on the screen

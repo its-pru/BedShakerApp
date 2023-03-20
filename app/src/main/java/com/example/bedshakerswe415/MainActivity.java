@@ -45,16 +45,16 @@ public class MainActivity extends AppCompatActivity {
     boolean toggle = false;
     public void toggle(View view) throws IOException {
         Switch switch1 = new Switch(0);
-       TextView label = findViewById(R.id.lblToggle);
-       toggle = !toggle;
-       if(toggle) {
+        TextView label = findViewById(R.id.lblToggle);
+        toggle = !toggle;
+        if(toggle) {
            label.setText("Bed Shaker ON");
            switch1.TurnOn();
 
-       }
-       else {
+        }
+        else {
            label.setText("Bed Shaker OFF");
            switch1.TurnOn();
-       }
+        }
     }
 }
