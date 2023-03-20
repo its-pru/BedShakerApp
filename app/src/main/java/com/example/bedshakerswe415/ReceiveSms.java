@@ -14,7 +14,7 @@ public class ReceiveSms extends BroadcastReceiver {
     // Contains a list of numbers which the app registers as a person that can send the wake up text
     private String validSenders[] = {"6505551212"};
     // The text string which the sender should send to activate the device
-    private String activateText = "Hello";
+    private String activateText = "WAKE UP";
 
     /**
      * Checks if the sender is a person that can send a text to this phone, and the text be registered.
