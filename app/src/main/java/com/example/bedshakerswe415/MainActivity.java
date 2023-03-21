@@ -1,9 +1,13 @@
 package com.example.bedshakerswe415;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
@@ -58,20 +62,42 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.RECEIVE_SMS}, 1000);
+        }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1000) {
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission Granted!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Permission Not Granted", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    }
+
     boolean toggle = false;
     public void toggle(View view) throws IOException {
        TextView label = findViewById(R.id.lblToggle);
        toggle = !toggle;
        if(toggle) {
+        Switch switch1 = new Switch(0);
+        TextView label = findViewById(R.id.lblToggle);
+        toggle = !toggle;
+        if(toggle) {
            label.setText("Bed Shaker ON");
            switch1.TurnOn();
 
-       }
-       else {
+        }
+        else {
            label.setText("Bed Shaker OFF");
            switch1.TurnOn();
-       }
+        }
     }
 
     private void saveMessage(String IP) {
