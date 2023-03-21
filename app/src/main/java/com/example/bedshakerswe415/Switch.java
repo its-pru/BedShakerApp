@@ -74,7 +74,8 @@ public class Switch {
     }
 
     public boolean setConfig() throws IOException {
-        URL url = new URL("http://192.168.33.1/rpc/WiFi.SetConfig?config={\"sta\":{\"ssid\":\"Fios-V9QV4\",\"pass\":\"bond832sad5073copy\",\"enable\":true}}");
+        URL url = new URL("http://192.168.33.1/rpc/WiFi.SetConfig?config={\"sta\":{\"ssid\":\"4 Middle spring 2.4ghz\",\"pass\":\"Shipsoccer2019!\",\"enable\":true}}");
+        //URL url = new URL("http://192.168.33.1/rpc/WiFi.SetConfig?config={\"sta\":{\"ssid\":\"Fios-V9QV4\",\"pass\":\"bond832sad5073copy\",\"enable\":true}}");
         try {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 

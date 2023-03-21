@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                     throw new RuntimeException(e);
                 }
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(15000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -83,20 +82,18 @@ public class MainActivity extends AppCompatActivity {
 
     boolean toggle = false;
     public void toggle(View view) throws IOException {
-       TextView label = findViewById(R.id.lblToggle);
-       toggle = !toggle;
-       if(toggle) {
-        Switch switch1 = new Switch(0);
-        TextView label = findViewById(R.id.lblToggle);
         toggle = !toggle;
-        if(toggle) {
-           label.setText("Bed Shaker ON");
-           switch1.TurnOn();
+        if (toggle) {
+            TextView label = findViewById(R.id.lblToggle);
+            toggle = !toggle;
+            if (toggle) {
+                label.setText("Bed Shaker ON");
+                switch1.TurnOn();
 
-        }
-        else {
-           label.setText("Bed Shaker OFF");
-           switch1.TurnOn();
+            } else {
+                label.setText("Bed Shaker OFF");
+                switch1.TurnOn();
+           }
         }
     }
 
