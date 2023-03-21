@@ -28,9 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         ipCheck = sharedPreferences.getString(TEXT, "");
-        //ipCheck = "10.0.0.237";
         switch1.setPrivateIP(ipCheck);
-        //System.out.println(ipCheck);
 
         if (ipCheck.equals("")) {
             String IP;
@@ -60,19 +58,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-//        boolean check;
-//        try {
-//            check = switch1.getStatus();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        if (check == true) {
-//            try {
-//                switch1.setConfig();
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
     }
     boolean toggle = false;
     public void toggle(View view) throws IOException {
