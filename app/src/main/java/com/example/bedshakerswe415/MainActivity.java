@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String SHARED_PREFS = "shared_Prefs";
     public static final String TEXT = "text";
     String ipCheck = "";
+    SharedPreferences sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,37 +30,38 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        ipCheck = sharedPreferences.getString(TEXT, "");
-        switch1.setPrivateIP(ipCheck);
 
-        if (ipCheck.equals("")) {
-            String IP;
-            try {
-                IP = switch1.getStatus();
-                System.out.println(IP);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            if (IP.equals("192.168.33.1")) {
-                try {
-                    switch1.setConfig();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                    Thread.sleep(15000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                    IP = switch1.getStatus();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                saveMessage(IP);
-            }
-        }
+//        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+//        ipCheck = sharedPreferences.getString(TEXT, "");
+//        switch1.setPrivateIP(ipCheck);
+
+//        if (ipCheck.equals("")) {
+//            String IP;
+//            try {
+//                IP = switch1.getStatus();
+//                System.out.println(IP);
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//            if (IP.equals("192.168.33.1")) {
+//                try {
+//                    switch1.setConfig();
+//                } catch (IOException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                try {
+//                    Thread.sleep(15000);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                try {
+//                    IP = switch1.getStatus();
+//                } catch (IOException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                saveMessage(IP);
+//            }
+//        }
 
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
@@ -98,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void saveMessage(String IP) {
-        SharedPreferences sharedpreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
         // below lines will put values for
         // message in shared preferences.
