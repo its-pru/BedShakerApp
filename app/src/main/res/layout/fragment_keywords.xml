@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout2"
+    android:id="@+id/keywordsConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".KeywordsFragment">
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/keywordsDescriptionText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
@@ -31,7 +31,7 @@
             android:textSize="18dp" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/keywordsInputWordText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
@@ -42,7 +42,7 @@
             android:textSize="20dp" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/keywordsAddButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"

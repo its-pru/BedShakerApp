@@ -17,15 +17,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/homeClockText"
+        <DigitalClock
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="64dp"
-            android:text="07:15 am"
+            android:capitalize="none"
+            android:textAllCaps="false"
             android:textColor="@color/black"
-            android:textSize="70sp"
-            tools:text="07:15 am" />
+            android:textSize="70sp" />
 
         <Button
             android:id="@+id/homeAwakeButton"
@@ -34,7 +33,6 @@
             android:layout_marginBottom="64dp"
             android:capitalize="none"
             android:fontFamily="sans-serif"
-            android:onClick="toggleShaker"
             android:paddingLeft="32dp"
             android:paddingTop="50dp"
             android:paddingRight="32dp"

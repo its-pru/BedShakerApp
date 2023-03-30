@@ -24,20 +24,6 @@ public class HomeFragment extends Fragment {
      * https://stackoverflow.com/questions/46308675/why-android-cannot-find-my-onclick-method-inside-fragment
      */
     boolean toggle = false;
-    public void toggleShaker(View view) throws IOException {
-        toggle = !toggle;
-        if (toggle) {
-            Button awakeButton = getView().findViewById(R.id.homeAwakeButton);
-            toggle = !toggle;
-            if (toggle) {
-                awakeButton.setText("I'm Awake");
-                //switch1.TurnOn();
-            } else {
-                awakeButton.setText("Shake It");
-                //switch1.TurnOn();
-            }
-        }
-    }
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -84,7 +70,26 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // Creating an event onClickListener to trigger an event when the button is clicked.
+        Button myButton = view.findViewById(R.id.homeAwakeButton);
+        myButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!toggle) { //Turn on
+                    myButton.setText("I'm Awake");
+                    //switch1.TurnOn();
+                } else { //Turn off
+                    myButton.setText("Shake It");
+                    //switch1.TurnOn();
+                }
+                toggle = !toggle;
+            }
+        });
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return view;
     }
 }
