@@ -5,13 +5,15 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Switch {
+public class Switch{
     public void setPrivateIP(String privateIP) {
         this.privateIP = privateIP;
     }
@@ -20,8 +22,7 @@ public class Switch {
     private String privateIP = "";
     public static final String TEXT = "text";
     private String shellyIP = "192.168.33.1";
-    public static final String SHARED_PREFS = "shared_Prefs";
-    //SharedPreferences sharedpreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+
     public Switch(int id) {
         this.id = id;
 

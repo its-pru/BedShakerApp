@@ -19,8 +19,6 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
     Switch switch1 = new Switch(0);
     public static final String SHARED_PREFS = "shared_Prefs";
-    public static final String TEXT = "text";
-    String ipCheck = "";
     SharedPreferences sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
 
     @Override
@@ -29,39 +27,16 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-//        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-//        ipCheck = sharedPreferences.getString(TEXT, "");
-//        switch1.setPrivateIP(ipCheck);
-
-//        if (ipCheck.equals("")) {
-//            String IP;
-//            try {
-//                IP = switch1.getStatus();
-//                System.out.println(IP);
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//            if (IP.equals("192.168.33.1")) {
-//                try {
-//                    switch1.setConfig();
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
-//                try {
-//                    Thread.sleep(15000);
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//                try {
-//                    IP = switch1.getStatus();
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
-//                saveMessage(IP);
-//            }
-//        }
+        try {
+            switch1.setConfig("Fios-V9QV4","bond832sad5073copy");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            switch1.getstatusCheckandSetSharedPref(sharedpreferences);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
@@ -97,18 +72,5 @@ public class MainActivity extends AppCompatActivity {
                 switch1.TurnOn();
            }
         }
-    }
-
-    private void saveMessage(String IP) {
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        // below lines will put values for
-        // message in shared preferences.
-        editor.putString(TEXT, IP);
-        // to save our data with key and value.
-        editor.apply();
-        // on below line we are displaying a toast message after adding data to shared prefs.
-        //Toast.makeText(this, "Message saved to Shared Preferences", Toast.LENGTH_SHORT).show();
-        // after that we are setting our edit text to empty
-        //messageEdt.setText("");
     }
 }
