@@ -1,11 +1,7 @@
 package com.example.bedshakerswe415;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Context;
 import android.content.SharedPreferences;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -18,13 +14,20 @@ public class Switch{
         this.privateIP = privateIP;
     }
 
+    public static final String SHARED_PREFS = "shared_Prefs";
     private final int id;
     private String privateIP = "";
     public static final String TEXT = "text";
     private String shellyIP = "192.168.33.1";
 
-    public Switch(int id) {
+    public Switch(int id, SharedPreferences sharedpreferences) {
         this.id = id;
+        if(sharedpreferences.getString(TEXT, "") == "") {
+            privateIP = shellyIP;
+        }
+        else {
+            privateIP = sharedpreferences.getString(TEXT, "");
+        }
 
     }
 

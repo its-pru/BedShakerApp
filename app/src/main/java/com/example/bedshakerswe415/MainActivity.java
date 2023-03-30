@@ -17,26 +17,28 @@ import android.widget.Toast;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
-    Switch switch1 = new Switch(0);
     public static final String SHARED_PREFS = "shared_Prefs";
-    SharedPreferences sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
 
+    Switch switch1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        try {
-            switch1.setConfig("Fios-V9QV4","bond832sad5073copy");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            switch1.getstatusCheckandSetSharedPref(sharedpreferences);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+        SharedPreferences sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        switch1 = new Switch(0, sharedpreferences);
+//        try {
+//            switch1.setConfig("Fios-V9QV4","bond832sad5073copy");
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        try {
+//            switch1.getstatusCheckandSetSharedPref(sharedpreferences);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
