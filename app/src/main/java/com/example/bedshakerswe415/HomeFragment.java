@@ -76,9 +76,20 @@ public class HomeFragment extends Fragment {
         // Creating an event onClickListener to trigger an event when the button is clicked.
         Button myButton = view.findViewById(R.id.homeAwakeButton);
         myButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Toggle the switch when the button on home is clicked.
+             * @param v The view that was clicked.
+             */
             @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Shaker Toggled", Toast.LENGTH_SHORT).show();
+            public void onClick(View v) throws RuntimeException {
+                MainActivity mainActivity = (MainActivity) getActivity();
+
+                try {
+                    mainActivity.switch1.TurnOn();
+                    Toast.makeText(getActivity(), "Bed Shaker Toggled", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
                 // TODO: Add functionality for sending message back to receiver here and turn off the switch.
             }

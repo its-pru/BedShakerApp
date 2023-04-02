@@ -37,7 +37,7 @@
             android:paddingTop="50dp"
             android:paddingRight="32dp"
             android:paddingBottom="50dp"
-            android:text="Shake It"
+            android:text="I'm Awake"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textSize="35sp" />
