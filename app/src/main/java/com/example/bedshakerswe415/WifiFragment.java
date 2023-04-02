@@ -1,5 +1,6 @@
 package com.example.bedshakerswe415;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,7 +62,31 @@ public class WifiFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_wifi, container, false);
+
+        // TODO : add function to wifi button
+        //  1. getActivity() to get MainActivity and switch
+        //  2. call setConfig() from switch and pass parameters from input fields
+        //  3. Disable button while waiting
+        //  4. wait for wifi to connect. (If connects, return to home fragment, else set description to red and make it read try again or something similar)
+
+        // Creating an event onClickListener to trigger an event when the button is clicked.
+        Button myButton = view.findViewById(R.id.wifiConnectButton);
+        myButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity mainActivity = (MainActivity) getActivity();
+                Switch ogSwitch = mainActivity.getSwitch();
+                EditText wifiName = getView().findViewById(R.id.wifiInputNameText);
+                EditText wifiPassword = getView().findViewById(R.id.wifiInputPasswordText);
+                ogSwitch.setConfig(wifiName.getText().toString(), wifiPassword.getText().toString());
+                myButton.setEnabled(false);
+
+                // Wait for response for setConfig()
+            }
+        });
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wifi, container, false);
+        return view;
     }
 }

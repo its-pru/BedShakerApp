@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -77,14 +78,9 @@ public class HomeFragment extends Fragment {
         myButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!toggle) { //Turn on
-                    myButton.setText("I'm Awake");
-                    //switch1.TurnOn();
-                } else { //Turn off
-                    myButton.setText("Shake It");
-                    //switch1.TurnOn();
-                }
-                toggle = !toggle;
+                Toast.makeText(getActivity(), "Shaker Toggled", Toast.LENGTH_SHORT).show();
+
+                // TODO: Add functionality for sending message back to receiver here and turn off the switch.
             }
         });
 

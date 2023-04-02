@@ -64,6 +64,8 @@ public class ReceiveSms extends BroadcastReceiver {
                             if (msgBody.equals(activateText)) {
                                 // Makes the small pop up appear on the screen
                                 Toast.makeText(context, "From: " + msgFrom + ", Body: " + msgBody, Toast.LENGTH_LONG).show();
+
+                                // TODO: Turn switch on, can create new switch object or try to reference one in main
                             }
                         }
                     }

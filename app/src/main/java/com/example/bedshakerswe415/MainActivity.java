@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String TEXT = "text";
     String ipCheck = "";
 
+    public int somevar = 1;
+
     ActivityMainBinding binding;
 
     @Override
@@ -101,6 +103,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Returns the global switch variable created in MainActivity.
+     */
+    // TODO: Create getSwitch()
+    public Switch getSwitch() {
+        return switch1;
+    }
+
+    /**
      * Replaces the mainFrameLayout item on the main_activity with the fragment
      * passed to the function. A fragment acts like a page in the app, each
      * has a different .xml file.
@@ -112,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.mainFrameLayout, fragment);
         fragmentTransaction.commit();
     }
+
 
 
     @Override
