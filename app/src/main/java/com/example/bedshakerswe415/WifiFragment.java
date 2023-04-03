@@ -1,6 +1,8 @@
 package com.example.bedshakerswe415;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -66,6 +68,7 @@ public class WifiFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("shared_Prefs", Context.MODE_PRIVATE);
         View view = inflater.inflate(R.layout.fragment_wifi, container, false);
 
         // Creating an event onClickListener to trigger an event when the button is clicked.
@@ -97,7 +100,11 @@ public class WifiFragment extends Fragment {
                     System.out.println("__EXCEPTION THROWN__");
                     throw new RuntimeException(e);
                 }
-
+                try {
+                    ogSwitch.getstatusCheckandSetSharedPref(sharedPreferences);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 // 3. Update the user message based on the result of getStatus
                 myButton.setEnabled(true);
                 TextView descriptionText = getView().findViewById(R.id.wifiDescriptionText);
