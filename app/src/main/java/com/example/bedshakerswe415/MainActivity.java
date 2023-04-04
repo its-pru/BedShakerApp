@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.bedshakerswe415.databinding.ActivityMainBinding;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 public class MainActivity extends AppCompatActivity {
     public static final String SHARED_PREFS = "shared_Prefs";
@@ -28,8 +29,15 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
 
+    public static WeakReference<MainActivity> weakActivity;
+
+    public static MainActivity getInstanceActivity() {
+        return weakActivity.get();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        weakActivity = new WeakReference<>(MainActivity.this);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         super.onCreate(savedInstanceState);
