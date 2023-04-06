@@ -3,11 +3,15 @@ package com.example.bedshakerswe415;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.widget.Toast;
+import androidx.fragment.app.Fragment;
 
-public class ReceiveSms extends BroadcastReceiver {
+import java.io.IOException;
+
+public class ReceiveSms extends BroadcastReceiver{
 
     // If False, then the phone doesn't check the number sending the text, only the message
     private boolean checkSender = false;
@@ -64,6 +68,18 @@ public class ReceiveSms extends BroadcastReceiver {
                             if (msgBody.equals(activateText)) {
                                 // Makes the small pop up appear on the screen
                                 Toast.makeText(context, "From: " + msgFrom + ", Body: " + msgBody, Toast.LENGTH_LONG).show();
+                                // TODO: Turn switch on, can create new switch object or try to reference one in main
+                               /* if(context instanceof MainActivity){
+                                    MainActivity activity = (MainActivity) context;
+                                    activity.switch1.TurnOn();}*/
+                                try {
+                                    MainActivity.getInstanceActivity().switch1.TurnOn();
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+
+                                System.out.println("hey");
+
                             }
                         }
                     }
