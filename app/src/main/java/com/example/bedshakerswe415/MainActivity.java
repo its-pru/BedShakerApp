@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -44,19 +45,13 @@ public class MainActivity extends AppCompatActivity {
 
         setUpNavigationPages();
 
+        Intent serviceIntent = new Intent(this, MyForegroundService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(serviceIntent);
+        }
+
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         switch1 = new Switch(0, sharedPreferences);
-
-//        try {
-//            switch1.setConfig("Fios-V9QV4","bond832sad5073copy");
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        try {
-//            switch1.getstatusCheckandSetSharedPref(sharedPreferences);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
 
 
         // Gets permission to receive SMS messages

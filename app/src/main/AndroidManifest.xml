@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <service android:name=".MyForegroundService"></service>
         <receiver android:name=".ReceiveSms"
             android:exported="true">
             <intent-filter>
@@ -31,5 +31,6 @@
         </receiver>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name= "android.permission.FOREGROUND_SERVICE"/>
 
 </manifest>
