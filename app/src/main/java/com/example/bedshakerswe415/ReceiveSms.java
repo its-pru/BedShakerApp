@@ -41,7 +41,7 @@ public class ReceiveSms extends BroadcastReceiver{
      * @param context The Context in which the receiver is running.
      * @param intent The Intent being received.
      */
-    @Override
+   @Override
     public void onReceive(Context context, Intent intent) {
 
         // If the users device receives an SMS message
@@ -69,9 +69,10 @@ public class ReceiveSms extends BroadcastReceiver{
                                 // Makes the small pop up appear on the screen
                                 Toast.makeText(context, "From: " + msgFrom + ", Body: " + msgBody, Toast.LENGTH_LONG).show();
                                 // TODO: Turn switch on, can create new switch object or try to reference one in main
-                               /* if(context instanceof MainActivity){
+                          /*     if(context instanceof MainActivity){
                                     MainActivity activity = (MainActivity) context;
-                                    activity.switch1.TurnOn();}*/
+                                    activity.switch1.TurnOn();
+                               }*/
                                 try {
                                     MainActivity.getInstanceActivity().switch1.TurnOn();
                                 } catch (IOException e) {
@@ -88,7 +89,5 @@ public class ReceiveSms extends BroadcastReceiver{
                 }
             }
         }
-
-
     }
 }
