@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String CHANNEL_ID = "autoStartServiceChannel";
+    public static final String CHANNEL_NAME = "Auto Start Service Channel";
     public static final String SHARED_PREFS = "shared_Prefs";
 
     Switch switch1;
@@ -43,6 +45,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+                if(!foregroundServiceRunning()) {
+            Intent serviceIntent = new Intent(this,
+                    MyForegroundService.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(serviceIntent);
+            }
+        }
+
 
         weakActivity = new WeakReference<>(MainActivity.this);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -156,5 +167,26 @@ public class MainActivity extends AppCompatActivity {
         else {
             Toast.makeText(this, "Error: Message already sent or no message received", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public boolean foregroundServiceRunning(){
+        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for(ActivityManager.RunningServiceInfo service: activityManager.getRunningServices(Integer.MAX_VALUE)) {
+            if(MyForegroundService.class.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void startService(View v) {
+
+        Intent serviceIntent = new Intent(this, SmsProcessService.class);
+        serviceIntent.putExtra("inputExtra", "passing any text");
+        ContextCompat.startForegroundService(this, serviceIntent);
+    }
+    public void stopService(View v) {
+        Intent serviceIntent = new Intent(this, SmsProcessService.class);
+        stopService(serviceIntent);
     }
 }
