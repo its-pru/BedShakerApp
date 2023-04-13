@@ -85,8 +85,8 @@ public class HomeFragment extends Fragment {
                 MainActivity mainActivity = (MainActivity) getActivity();
 
                 try {
-                    mainActivity.switch1.TurnOn();
-                    Toast.makeText(getActivity(), "Bed Shaker Toggled", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getActivity(), "Bed Shaker Toggled", Toast.LENGTH_SHORT).show();
+                    mainActivity.sendSMSandTurnOffSwitch();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

@@ -16,6 +16,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
 
     public static WeakReference<MainActivity> weakActivity;
+
+    String receivedPhoneNo;
 
     public static MainActivity getInstanceActivity() {
         return weakActivity.get();
@@ -60,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
         // Gets permission to receive SMS messages
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.RECEIVE_SMS}, 1000);
+        }
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.SEND_SMS}, 1000);
         }
     }
 
@@ -135,6 +141,20 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Permission Not Granted", Toast.LENGTH_SHORT).show();
                 finish();
             }
+        }
+    }
+
+    public void sendSMSandTurnOffSwitch() throws IOException {
+        String SMS = "I WOKE UP!";
+        if (!receivedPhoneNo.equals("")) {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(receivedPhoneNo, null, SMS, null, null);
+            Toast.makeText(this, "Message is sent", Toast.LENGTH_SHORT).show();
+            receivedPhoneNo = "";
+            switch1.TurnOn();
+        }
+        else {
+            Toast.makeText(this, "Error: Message already sent or no message received", Toast.LENGTH_LONG).show();
         }
     }
 }

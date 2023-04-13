@@ -63,11 +63,13 @@ public class ReceiveSms extends BroadcastReceiver{
 
                         // LOGIC FOR RECEIVING A MESSAGE
                         msgFrom = msgs[i].getOriginatingAddress();
+                        msgFrom =  msgFrom.substring(1);
                         if (!checkSender || isValidSender(msgFrom)) {
                             String msgBody = msgs[i].getMessageBody();
                             if (msgBody.equals(activateText)) {
                                 // Makes the small pop up appear on the screen
                                 Toast.makeText(context, "From: " + msgFrom + ", Body: " + msgBody, Toast.LENGTH_LONG).show();
+                                MainActivity.getInstanceActivity().receivedPhoneNo = msgFrom;
                                 // TODO: Turn switch on, can create new switch object or try to reference one in main
                           /*     if(context instanceof MainActivity){
                                     MainActivity activity = (MainActivity) context;
