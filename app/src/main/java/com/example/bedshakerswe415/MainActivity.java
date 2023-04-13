@@ -2,10 +2,12 @@ package com.example.bedshakerswe415;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +26,8 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String CHANNEL_ID = "autoStartServiceChannel";
+    public static final String CHANNEL_NAME = "Auto Start Service Channel";
     public static final String SHARED_PREFS = "shared_Prefs";
 
     Switch switch1;
@@ -38,6 +42,31 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+/*        if(!foregroundServiceRunning()) {
+            Intent serviceIntent = new Intent(this,
+                    MyForegroundService.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(serviceIntent);
+            }
+        }*/
+
+        //startService(new Intent(MainActivity.this, SmsProcessService.class));
+
+/*        Intent smsServiceIntent;
+        smsServiceIntent = new Intent(MainActivity.this, SmsProcessService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(smsServiceIntent);
+        }*/
+
+/*        if(!foregroundServiceRunning()) {
+            Intent serviceIntent = new Intent(this,
+                    SmsProcessService.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(serviceIntent);
+            }
+        }*/
+
         weakActivity = new WeakReference<>(MainActivity.this);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -45,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         setUpNavigationPages();
 
-        Intent serviceIntent = new Intent(this, MyForegroundService.class);
+        Intent serviceIntent = new Intent(this, ReceiveSms.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(serviceIntent);
         }
@@ -134,4 +163,25 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    /*public boolean foregroundServiceRunning(){
+        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for(ActivityManager.RunningServiceInfo service: activityManager.getRunningServices(Integer.MAX_VALUE)) {
+            if(MyForegroundService.class.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void startService(View v) {
+
+        Intent serviceIntent = new Intent(this, SmsProcessService.class);
+        serviceIntent.putExtra("inputExtra", "passing any text");
+        ContextCompat.startForegroundService(this, serviceIntent);
+    }
+    public void stopService(View v) {
+        Intent serviceIntent = new Intent(this, SmsProcessService.class);
+        stopService(serviceIntent);
+    }*/
 }
