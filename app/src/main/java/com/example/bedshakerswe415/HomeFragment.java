@@ -1,7 +1,11 @@
 package com.example.bedshakerswe415;
 
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -85,8 +89,8 @@ public class HomeFragment extends Fragment {
                 MainActivity mainActivity = (MainActivity) getActivity();
 
                 try {
-                    mainActivity.switch1.TurnOn();
-                    Toast.makeText(getActivity(), "Bed Shaker Toggled", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getActivity(), "Bed Shaker Toggled", Toast.LENGTH_SHORT).show();
+                    MainActivity.getInstanceActivity().sendSMSandTurnOffSwitch();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -99,4 +103,5 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
+
 }
