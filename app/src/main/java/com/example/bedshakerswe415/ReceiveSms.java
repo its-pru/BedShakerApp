@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.widget.Toast;
@@ -20,6 +21,8 @@ public class ReceiveSms extends BroadcastReceiver{
     // The text string which the sender should send to activate the device
     private String activateText = "WAKE UP";
 
+    public static final String NUMBER = "number";
+
     /**
      * Checks if the sender is a person that can send a text to this phone, and the text be registered.
      * @param from The number the text was received from
@@ -34,6 +37,12 @@ public class ReceiveSms extends BroadcastReceiver{
         return false;
     }
 
+    private void startMainActivity(Context context) throws PackageManager.NameNotFoundException {
+        PackageManager pm = context.getPackageManager();
+        Intent intent = pm.getLaunchIntentForPackage(context.getPackageName());
+        context.startActivity(intent);
+    }
+
     /**
      * This method is called when the BroadcastReceiver is receiving an Intent broadcast.
      * A small alert appears which contains the number the text came from, and the content of
@@ -43,6 +52,9 @@ public class ReceiveSms extends BroadcastReceiver{
      */
    @Override
     public void onReceive(Context context, Intent intent) {
+        MainActivity mainActivity = MainActivity.getInstanceActivity();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("shared_Prefs", Context.MODE_PRIVATE);
+
 
         // If the users device receives an SMS message
         if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")) {
@@ -69,7 +81,12 @@ public class ReceiveSms extends BroadcastReceiver{
                             if (msgBody.equals(activateText)) {
                                 // Makes the small pop up appear on the screen
                                 Toast.makeText(context, "From: " + msgFrom + ", Body: " + msgBody, Toast.LENGTH_LONG).show();
-                                MainActivity.getInstanceActivity().receivedPhoneNo = msgFrom;
+//                                MainActivity.getInstanceActivity().receivedPhoneNo = msgFrom;
+
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString(NUMBER, msgFrom);
+                                editor.commit();
+
                                 // TODO: Turn switch on, can create new switch object or try to reference one in main
                           /*     if(context instanceof MainActivity){
                                     MainActivity activity = (MainActivity) context;

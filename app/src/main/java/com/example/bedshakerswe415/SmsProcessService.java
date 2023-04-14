@@ -27,7 +27,7 @@ public class SmsProcessService extends Service {
         Notification notification = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID)
                 .setContentTitle("Auto Start Service")
                 .setContentText(input)
-                .setSmallIcon(R.drawable.ic_baseline_add_24)
+                .setSmallIcon(R.drawable.baseline_textsms_24)
                 .setContentIntent(pendingIntent)
                 .build();
         NotificationManager  mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

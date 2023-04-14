@@ -90,7 +90,7 @@ public class HomeFragment extends Fragment {
 
                 try {
                     // Toast.makeText(getActivity(), "Bed Shaker Toggled", Toast.LENGTH_SHORT).show();
-                    mainActivity.sendSMSandTurnOffSwitch();
+                    MainActivity.getInstanceActivity().sendSMSandTurnOffSwitch();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

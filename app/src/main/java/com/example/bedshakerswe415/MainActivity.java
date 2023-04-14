@@ -1,5 +1,7 @@
 package com.example.bedshakerswe415;
 
+import static com.example.bedshakerswe415.ReceiveSms.NUMBER;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -36,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
 
     public static WeakReference<MainActivity> weakActivity;
-
-    String receivedPhoneNo;
 
     public static MainActivity getInstanceActivity() {
         return weakActivity.get();
@@ -157,11 +157,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendSMSandTurnOffSwitch() throws IOException {
         String SMS = "I WOKE UP!";
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        String receivedPhoneNo = sharedPreferences.getString(NUMBER, "");
         if (!receivedPhoneNo.equals("")) {
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(receivedPhoneNo, null, SMS, null, null);
             Toast.makeText(this, "Message is sent", Toast.LENGTH_SHORT).show();
             receivedPhoneNo = "";
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(NUMBER,receivedPhoneNo);
+            editor.commit();
+
             switch1.TurnOn();
         }
         else {
