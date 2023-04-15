@@ -1,6 +1,7 @@
 package com.example.bedshakerswe415;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -16,7 +17,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,6 +72,8 @@ public class WifiFragment extends Fragment {
         }
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,39 +92,67 @@ public class WifiFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 System.out.println("__BUTTON CLICKED__");
-                boolean succeeded = false;
+                // Retrieving main activity to update ui and switch etc
+                MainActivity mainActivity = (MainActivity) getActivity();
+
+                // Display loading progress bar
+                ProgressDialog p = new ProgressDialog(mainActivity);
+                p.setMessage("Connecting ...");
+                p.setCancelable(false);
+                p.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                p.show();
+
                 myButton.setEnabled(false); // Disable button while waiting
 
-                //  1. getActivity() to get MainActivity and switch
-                MainActivity mainActivity = (MainActivity) getActivity();
                 Switch ogSwitch = mainActivity.getSwitch();
                 EditText wifiName = getView().findViewById(R.id.wifiInputNameText);
                 EditText wifiPassword = getView().findViewById(R.id.wifiInputPasswordText);
 
-                //  2. call setConfig() from switch and pass parameters from input fields
-                try {
-                    System.out.println("__ATTEMPTING__");
-                    succeeded = ogSwitch.setConfig(wifiName.getText().toString(), wifiPassword.getText().toString());
-                } catch (IOException e) {
-                    System.out.println("__EXCEPTION THROWN__");
-                    throw new RuntimeException(e);
-                }
-                try {
-                    ogSwitch.getstatusCheckandSetSharedPref(sharedPreferences);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                // 3. Update the user message based on the result of getStatus
+                // Created thread, so the progress dialog would appear while the wifi is connecting.
+                // Thread connects to wifi and alters the wifi description message, if connection successful.
+                Thread setUpWifiThread = new Thread() {
+                    boolean succeeded = false;
+                    @Override
+                    public void run() {
+                        //  call setConfig() from switch and pass parameters from input fields
+                        try {
+                            System.out.println("__ATTEMPTING__");
+                            succeeded = ogSwitch.setConfig(wifiName.getText().toString(), wifiPassword.getText().toString());
+                            System.out.println("Success (In Thread): " + succeeded);
+                        } catch (IOException e) {
+                            System.out.println("__EXCEPTION THROWN__");
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            ogSwitch.getstatusCheckandSetSharedPref(sharedPreferences);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        // Remove progress spinner from screen
+                        p.dismiss();
+                        mainActivity.runOnUiThread(new Runnable(){
+                            @Override
+                            public void run(){
+                                TextView descriptionText = getView().findViewById(R.id.wifiDescriptionText);
+                                if (succeeded) {
+                                    descriptionText.setText("Wifi connected successfully.");
+                                    descriptionText.setTextColor(Color.parseColor("#2dcc7f"));
+                                    // TODO: could send user back to home screen...
+                                } else {
+                                    descriptionText.setText("Something went wrong, try again.");
+                                    descriptionText.setTextColor(Color.parseColor("#de3c3c"));
+                                }
+                            }
+                        });
+                    }
+                };
+
+                setUpWifiThread.start();
+
+                // Update the user message based on the result of getStatus
                 myButton.setEnabled(true);
-                TextView descriptionText = getView().findViewById(R.id.wifiDescriptionText);
-                if (succeeded) {
-                    descriptionText.setText("Wifi connected successfully.");
-                    descriptionText.setTextColor(Color.parseColor("#2dcc7f"));
-                    // TODO: could send user back to home screen...
-                } else {
-                    descriptionText.setText("Something went wrong, try again.");
-                    descriptionText.setTextColor(Color.parseColor("#de3c3c"));
-                }
+
                 System.out.println("__ENDED__");
             }
         });
