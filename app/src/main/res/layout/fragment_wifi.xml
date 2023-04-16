@@ -61,6 +61,55 @@
             android:paddingBottom="12dp"
             android:text="Connect Wifi"
             android:textSize="18dp" />
+        <TextView
+            android:id="@+id/wifiDocumentation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="0dp"
+            android:text="    How to connect personal wifi network"
+            android:textSize="18dp"
+            android:textAppearance="bold" />
+        <TextView
+            android:id="@+id/wifiDescriptionTextStep1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="10dp"
+            android:text="Step 1: Plug in the smart switch."
+            android:textSize="18dp" />
+        <TextView
+            android:id="@+id/wifiDescriptionTextStep2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="10dp"
+            android:text="Step 2: Connect your device to the Shelly network."
+            android:textSize="18dp" />
+        <TextView
+            android:id="@+id/wifiDescriptionTextStep3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="10dp"
+            android:text="Step 3: Once connected, enter your wifi name and password above and press the CONNECT WIFI button."
+            android:textSize="18dp" />
+        <TextView
+            android:id="@+id/wifiDescriptionTextStep4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="10dp"
+            android:text="Step 4: Restart the app and then connect your device to wifi you wish to use."
+            android:textSize="18dp" />
+        <TextView
+            android:id="@+id/wifiDescriptionTextStep5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:text="Step 5: Re-open the app and now your Bed Shaker App is ready to be used."
+            android:textSize="18dp" />
     </LinearLayout>
 
 
