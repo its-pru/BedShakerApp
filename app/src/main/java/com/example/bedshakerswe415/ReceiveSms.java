@@ -81,17 +81,12 @@ public class ReceiveSms extends BroadcastReceiver{
                             if (msgBody.equals(activateText)) {
                                 // Makes the small pop up appear on the screen
                                 Toast.makeText(context, "From: " + msgFrom + ", Body: " + msgBody, Toast.LENGTH_LONG).show();
-//                                MainActivity.getInstanceActivity().receivedPhoneNo = msgFrom;
 
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString(NUMBER, msgFrom);
                                 editor.commit();
 
                                 // TODO: Turn switch on, can create new switch object or try to reference one in main
-                          /*     if(context instanceof MainActivity){
-                                    MainActivity activity = (MainActivity) context;
-                                    activity.switch1.TurnOn();
-                               }*/
                                 try {
                                     MainActivity.getInstanceActivity().switch1.TurnOn();
                                 } catch (IOException e) {
