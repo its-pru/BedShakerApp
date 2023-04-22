@@ -54,10 +54,11 @@ public class ReceiveSms extends BroadcastReceiver{
     public void onReceive(Context context, Intent intent) {
         MainActivity mainActivity = MainActivity.getInstanceActivity();
         SharedPreferences sharedPreferences = context.getSharedPreferences("shared_Prefs", Context.MODE_PRIVATE);
-
+        System.out.println("__ON RECEIVE SMS__");
 
         // If the users device receives an SMS message
         if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")) {
+            System.out.println("__MSG RECEIVED__");
             Bundle bundle = intent.getExtras();
             System.out.println("___PRINT___\n" + bundle);
 
@@ -78,6 +79,7 @@ public class ReceiveSms extends BroadcastReceiver{
                         msgFrom =  msgFrom.substring(1);
                         if (!checkSender || isValidSender(msgFrom)) {
                             String msgBody = msgs[i].getMessageBody();
+                            System.out.println("__MSG BODY__\n" + msgBody);
                             if (msgBody.equals(activateText)) {
                                 // Makes the small pop up appear on the screen
                                 Toast.makeText(context, "From: " + msgFrom + ", Body: " + msgBody, Toast.LENGTH_LONG).show();

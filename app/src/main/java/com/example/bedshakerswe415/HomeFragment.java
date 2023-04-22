@@ -18,59 +18,31 @@ import android.widget.Toast;
 import java.io.IOException;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Home Fragment controls the page on the app known as the home
+ * page. The page contains some text, and a button which the user
+ * can press to turn off the bed shaker when someone sends a message,
+ * and to send a message back to the sender.
  */
 public class HomeFragment extends Fragment {
-
-    /**
-     * MAKE BTN WORK INSIDE FRAGMENT : https://stackoverflow.com/questions/21192386/android-fragment-onclick-button-method
-     * https://stackoverflow.com/questions/46308675/why-android-cannot-find-my-onclick-method-inside-fragment
-     */
-    boolean toggle = false;
-
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * Called when an instance of the home fragment is created. Adds an event
+     * listener for when the button is pressed on the home screen.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return the view
      */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,7 +53,8 @@ public class HomeFragment extends Fragment {
         Button myButton = view.findViewById(R.id.homeAwakeButton);
         myButton.setOnClickListener(new View.OnClickListener() {
             /**
-             * Toggle the switch when the button on home is clicked.
+             * OnClick method attached to "I'm Awake" button on home.
+             * Used to toggle the switch when the button on home is clicked.
              * @param v The view that was clicked.
              */
             @Override
@@ -91,15 +64,11 @@ public class HomeFragment extends Fragment {
                 try {
                     // Toast.makeText(getActivity(), "Bed Shaker Toggled", Toast.LENGTH_SHORT).show();
                     MainActivity.getInstanceActivity().sendSMSandTurnOffSwitch();
-                    // MainActivity.getInstanceActivity().switch1.TurnOn();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-
-                // TODO: Add functionality for sending message back to receiver here and turn off the switch.
             }
         });
-
 
         // Inflate the layout for this fragment
         return view;
