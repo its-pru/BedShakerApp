@@ -1,29 +1,18 @@
 package com.example.bedshakerswe415;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 /**
  * Wifi Fragment controls the page on the app where a user can
@@ -35,6 +24,76 @@ import java.util.concurrent.Future;
 public class WifiFragment extends Fragment {
     public WifiFragment() {
         // Required empty public constructor
+    }
+
+    /**
+     * Updates the text on the Wifi Screen to notify the user
+     * if the connection was successful or not.
+     * @param succeeded True if connection was successful, false if it was not.
+     */
+    private void updateUI(boolean succeeded) {
+        TextView descriptionText = getView().findViewById(R.id.wifiDescriptionText);
+        if (succeeded) {
+            descriptionText.setText("Wifi connected successfully.");
+            descriptionText.setTextColor(Color.parseColor("#2dcc7f"));
+        } else {
+            descriptionText.setText("Something went wrong, try again.");
+            descriptionText.setTextColor(Color.parseColor("#de3c3c"));
+        }
+    }
+
+    /**
+     * Returns a spinner object with some custom settings. Settings
+     * describe if there is a spinner, the message displayed, and disables
+     * the user from closing the spinner.
+     * @return the custom progressDialog object
+     */
+    private ProgressDialog getCustomProgressDialog() {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        ProgressDialog pd = new ProgressDialog(mainActivity);
+        pd.setMessage("Connecting ...");
+        pd.setCancelable(false);
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        return pd;
+    }
+
+    /**
+     * The handler for when the add wifi button is clicked. Will set the text on
+     * the page to notify the user if the connection succeeded. Disables button
+     * after its clicked, re-enables after setConfig is run.
+     * @param myButton The button that is clicked
+     * @param sharedPreferences The sharedPreferences being used to access saved data
+     */
+    private void onConnectWifiButtonClicked(Button myButton, SharedPreferences sharedPreferences) {
+        MainActivity mainActivity = (MainActivity) getActivity();
+
+        ProgressDialog progressSpinner = getCustomProgressDialog();
+        progressSpinner.show();
+
+        Switch ogSwitch = mainActivity.getSwitch();
+        EditText wifiName = getView().findViewById(R.id.wifiInputNameText);
+        EditText wifiPassword = getView().findViewById(R.id.wifiInputPasswordText);
+
+        // Created thread, so the progress dialog would appear while the wifi is connecting.
+        // Thread connects to wifi and alters the wifi description message, if connection successful.
+        Thread setUpWifiThread = new Thread() {
+            boolean succeeded = false;
+            @Override
+            public void run() {
+                //  call setConfig() from switch and pass parameters from input fields
+                try {
+                    succeeded = ogSwitch.setConfig(wifiName.getText().toString(), wifiPassword.getText().toString());
+                    ogSwitch.getstatusCheckandSetSharedPref(sharedPreferences);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                progressSpinner.dismiss();
+                mainActivity.runOnUiThread(() -> updateUI(succeeded));
+            }
+        };
+
+        setUpWifiThread.start();
     }
 
     /**
@@ -59,80 +118,7 @@ public class WifiFragment extends Fragment {
 
         // Creating an event onClickListener to trigger an event when the button is clicked.
         Button myButton = view.findViewById(R.id.wifiConnectButton);
-        myButton.setOnClickListener(new View.OnClickListener() {
-            /**
-             * The handler for when the add wifi button is clicked. Will set the text on
-             * the page to notify the user if the connection succeeded. Disables button
-             * after its clicked, re-enables after setConfig is run.
-             * @param v The view that was clicked.
-             */
-            @Override
-            public void onClick(View v) {
-                System.out.println("__BUTTON CLICKED__");
-                // Retrieving main activity to update ui and switch etc
-                MainActivity mainActivity = (MainActivity) getActivity();
-
-                // Display loading progress bar
-                ProgressDialog p = new ProgressDialog(mainActivity);
-                p.setMessage("Connecting ...");
-                p.setCancelable(false);
-                p.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                p.show();
-
-                myButton.setEnabled(false); // Disable button while waiting
-
-                Switch ogSwitch = mainActivity.getSwitch();
-                EditText wifiName = getView().findViewById(R.id.wifiInputNameText);
-                EditText wifiPassword = getView().findViewById(R.id.wifiInputPasswordText);
-
-                // Created thread, so the progress dialog would appear while the wifi is connecting.
-                // Thread connects to wifi and alters the wifi description message, if connection successful.
-                Thread setUpWifiThread = new Thread() {
-                    boolean succeeded = false;
-                    @Override
-                    public void run() {
-                        //  call setConfig() from switch and pass parameters from input fields
-                        try {
-                            System.out.println("__ATTEMPTING__");
-                            succeeded = ogSwitch.setConfig(wifiName.getText().toString(), wifiPassword.getText().toString());
-                            System.out.println("Success (In Thread): " + succeeded);
-                        } catch (IOException e) {
-                            System.out.println("__EXCEPTION THROWN__");
-                            throw new RuntimeException(e);
-                        }
-                        try {
-                            ogSwitch.getstatusCheckandSetSharedPref(sharedPreferences);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-
-                        // Remove progress spinner from screen
-                        p.dismiss();
-                        mainActivity.runOnUiThread(new Runnable(){
-                            @Override
-                            public void run(){
-                                TextView descriptionText = getView().findViewById(R.id.wifiDescriptionText);
-                                if (succeeded) {
-                                    descriptionText.setText("Wifi connected successfully.");
-                                    descriptionText.setTextColor(Color.parseColor("#2dcc7f"));
-                                    // TODO: could send user back to home screen...
-                                } else {
-                                    descriptionText.setText("Something went wrong, try again.");
-                                    descriptionText.setTextColor(Color.parseColor("#de3c3c"));
-                                }
-                            }
-                        });
-                    }
-                };
-
-                setUpWifiThread.start();
-
-                // Update the user message based on the result of getStatus
-                myButton.setEnabled(true);
-
-                System.out.println("__ENDED__");
-            }
-        });
+        myButton.setOnClickListener(v -> onConnectWifiButtonClicked(myButton, sharedPreferences));
 
         // Inflate the layout for this fragment
         return view;
