@@ -1,20 +1,11 @@
 package com.example.bedshakerswe415;
 
-import android.app.ActivityManager;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import java.io.IOException;
 
 /**
@@ -27,6 +18,20 @@ public class HomeFragment extends Fragment {
 
     public HomeFragment() {
         // Required empty public constructor
+    }
+
+    /**
+     * Describes the actions to take when the "I'm Awake" button on home
+     * is clicked. Turns off the switch and sends a message back to the
+     * sender's phone which sent you the message.
+     */
+    private void onHomeButtonClicked() {
+        try {
+            // Toast.makeText(getActivity(), "Bed Shaker Toggled", Toast.LENGTH_SHORT).show();
+            MainActivity.getInstanceActivity().sendSMSandTurnOffSwitch();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -51,24 +56,7 @@ public class HomeFragment extends Fragment {
 
         // Creating an event onClickListener to trigger an event when the button is clicked.
         Button myButton = view.findViewById(R.id.homeAwakeButton);
-        myButton.setOnClickListener(new View.OnClickListener() {
-            /**
-             * OnClick method attached to "I'm Awake" button on home.
-             * Used to toggle the switch when the button on home is clicked.
-             * @param v The view that was clicked.
-             */
-            @Override
-            public void onClick(View v) throws RuntimeException {
-                MainActivity mainActivity = (MainActivity) getActivity();
-
-                try {
-                    // Toast.makeText(getActivity(), "Bed Shaker Toggled", Toast.LENGTH_SHORT).show();
-                    MainActivity.getInstanceActivity().sendSMSandTurnOffSwitch();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
+        myButton.setOnClickListener(v -> onHomeButtonClicked());
 
         // Inflate the layout for this fragment
         return view;
