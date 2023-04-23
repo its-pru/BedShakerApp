@@ -27,19 +27,19 @@
             android:name=".MyForegroundService"
             android:enabled="true"
             android:exported="true" />
-       <!-- <receiver android:name=".ReceiveSms"
-            android:exported="true"
-            android:permission="android.permission.BROADCAST_SMS">
-            <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-            </intent-filter>
-        </receiver>-->
-<!--        <receiver android:name=".MyBroadcastReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
-            </intent-filter>
-        </receiver>-->
+        <!-- <receiver android:name=".ReceiveSms"
+             android:exported="true"
+             android:permission="android.permission.BROADCAST_SMS">
+             <intent-filter>
+                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+             </intent-filter>
+         </receiver>-->
+        <!--        <receiver android:name=".MyBroadcastReceiver"
+                    android:exported="true">
+                    <intent-filter>
+                        <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                    </intent-filter>
+                </receiver>-->
 
         <receiver android:name="com.example.bedshakerswe415.ReceiveSms"
             android:exported="true">
@@ -49,19 +49,19 @@
             </intent-filter>
         </receiver>
 
-<!--        <receiver
-            android:name=".ReceiveSms"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
+        <!--        <receiver
+                    android:name=".ReceiveSms"
+                    android:enabled="true"
+                    android:exported="true">
+                    <intent-filter>
+                        <action android:name="android.intent.action.BOOT_COMPLETED" />
+                    </intent-filter>
+                </receiver>
 
-        <service
-            android:name=".SmsProcessService"
-            android:enabled="true"
-            android:exported="true" />-->
+                <service
+                    android:name=".SmsProcessService"
+                    android:enabled="true"
+                    android:exported="true" />-->
 
 
     </application>

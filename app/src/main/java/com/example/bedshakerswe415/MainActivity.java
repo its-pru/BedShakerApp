@@ -185,15 +185,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
-
-    public void startService(View v) {
-
-        Intent serviceIntent = new Intent(this, SmsProcessService.class);
-        serviceIntent.putExtra("inputExtra", "passing any text");
-        ContextCompat.startForegroundService(this, serviceIntent);
-    }
-    public void stopService(View v) {
-        Intent serviceIntent = new Intent(this, SmsProcessService.class);
-        stopService(serviceIntent);
-    }
 }
