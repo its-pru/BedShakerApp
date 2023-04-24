@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
+import android.util.Log;
 import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ import java.util.Arrays;
  * Handles what happens when an SMS message is received.
  */
 public class ReceiveSms extends BroadcastReceiver{
+
+    public static final String TAG_RECEIVE_SMS = "DARROW_A";
 
     // If False, then the phone doesn't check the number sending the text, only the message
     public boolean checkSender = false;
@@ -111,6 +114,7 @@ public class ReceiveSms extends BroadcastReceiver{
     public void onReceive(Context context, Intent intent) {
         // If the user's device receives an SMS message
         if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")) {
+            Log.d(TAG_RECEIVE_SMS, "Received Text Message");
             SharedPreferences sharedPreferences = context.getSharedPreferences("shared_Prefs", Context.MODE_PRIVATE);
 
             Bundle bundle = intent.getExtras();
@@ -120,15 +124,22 @@ public class ReceiveSms extends BroadcastReceiver{
             if (isValidMessage) {
                 Toast.makeText(context, "Received Message", Toast.LENGTH_LONG).show();
 
+                Log.d(TAG_RECEIVE_SMS, "Storing in Shared Preferences");
                 // Share who it is from in shared prefs
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(NUMBER, msgFrom);
                 editor.commit();
 
                 try {
-                    MainActivity.getInstanceActivity().switch1.TurnOn();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    Log.d(TAG_RECEIVE_SMS, "Turning on Switch");
+//                    MainActivity ma = MainActivity.getInstanceActivity(); // Old method: Returns Null
+//                    MainActivity ma = (MainActivity) context; //Does not work
+//                    ma.switch1.TurnOn();
+                    Switch switch2 = new Switch(0, sharedPreferences);
+                    switch2.TurnOn(); // Returns error with connect() when trying after boot
+                    Log.d(TAG_RECEIVE_SMS, "Switch On");
+                } catch (Exception e) {
+                    Log.e(TAG_RECEIVE_SMS, e.getMessage(), e);
                 }
             }
         }
