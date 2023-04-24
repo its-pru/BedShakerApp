@@ -37,6 +37,7 @@ public class Switch{
 
     public boolean TurnOn() throws IOException {
         Log.d("DARROW_A", "Switch TurnOn beginning process...");
+
         URL url = new URL("http://" + privateIP + "/rpc/Switch.Toggle?id=" + id);
         try {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();

@@ -132,12 +132,20 @@ public class ReceiveSms extends BroadcastReceiver{
 
                 try {
                     Log.d(TAG_RECEIVE_SMS, "Turning on Switch");
-//                    MainActivity ma = MainActivity.getInstanceActivity(); // Old method: Returns Null
-//                    MainActivity ma = (MainActivity) context; //Does not work
-//                    ma.switch1.TurnOn();
-                    Switch switch2 = new Switch(0, sharedPreferences);
-                    switch2.TurnOn(); // Returns error with connect() when trying after boot
-                    Log.d(TAG_RECEIVE_SMS, "Switch On");
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try  {
+                                Switch switch2 = new Switch(0, sharedPreferences);
+                                switch2.TurnOn(); // Returns error with connect() when trying after boot
+                                Log.d(TAG_RECEIVE_SMS, "Switch On");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+                    thread.start();
                 } catch (Exception e) {
                     Log.e(TAG_RECEIVE_SMS, e.getMessage(), e);
                 }
