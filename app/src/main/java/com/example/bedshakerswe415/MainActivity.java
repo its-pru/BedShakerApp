@@ -4,7 +4,6 @@ import static com.example.bedshakerswe415.ReceiveSms.NUMBER;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -20,8 +19,6 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.telephony.SmsManager;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bedshakerswe415.databinding.ActivityMainBinding;
@@ -126,8 +123,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.wifi:
                     replaceFragment(new WifiFragment());
                     break;
-                case R.id.keywords:
-                    replaceFragment(new KeywordsFragment());
+                case R.id.settings:
+                    replaceFragment(new SettingsFragment());
                     break;
                 case R.id.contacts:
                     replaceFragment(new ContactsFragment());
