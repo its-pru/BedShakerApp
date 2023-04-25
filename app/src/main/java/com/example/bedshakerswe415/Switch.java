@@ -2,6 +2,7 @@ package com.example.bedshakerswe415;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Switch{
+    public static final String TAG_SWITCH = "DARROW_A";
     public void setPrivateIP(String privateIP) {
         this.privateIP = privateIP;
     }
@@ -27,11 +29,15 @@ public class Switch{
         }
         else {
             privateIP = sharedpreferences.getString(TEXT, "");
+            Log.d(TAG_SWITCH, "Shared preferences IP: " + privateIP + " :");
+
         }
 
     }
 
     public boolean TurnOn() throws IOException {
+        Log.d("DARROW_A", "Switch TurnOn beginning process...");
+
         URL url = new URL("http://" + privateIP + "/rpc/Switch.Toggle?id=" + id);
         try {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -44,6 +50,7 @@ public class Switch{
                 return true;
             }
         } catch (IOException e) {
+            Log.e(TAG_SWITCH, e.getMessage(), e);
             throw new RuntimeException(e);
         }
         return false;

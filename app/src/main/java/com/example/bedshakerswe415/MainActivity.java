@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,11 +30,9 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String CHANNEL_ID = "autoStartServiceChannel";
-    public static final String CHANNEL_NAME = "Auto Start Service Channel";
     public static final String SHARED_PREFS = "shared_Prefs";
 
-    Switch switch1;
+   Switch switch1;
 
     ActivityMainBinding binding;
 
@@ -44,9 +43,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onStart() {
+        super.onStart();
+        Log.d("DARROW_A", "Main Activity started");
+        weakActivity = new WeakReference<>(MainActivity.this);
+    }
 
-                if(!foregroundServiceRunning()) {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("DARROW_A", "Main Activity resumed");
+        weakActivity = new WeakReference<>(MainActivity.this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("DARROW_A", "Main Activity paused");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("DARROW_A", "Main Activity destroyed");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("DARROW_A", "Main Activity stopped");
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        Log.d("DARROW_A", "Main Activity created");
+        if(!foregroundServiceRunning()) {
             Intent serviceIntent = new Intent(this,
                     MyForegroundService.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -54,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
         weakActivity = new WeakReference<>(MainActivity.this);
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         super.onCreate(savedInstanceState);
@@ -78,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.SEND_SMS}, 1000);
         }
+
+
     }
 
     /**
@@ -184,16 +218,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return false;
-    }
-
-    public void startService(View v) {
-
-        Intent serviceIntent = new Intent(this, SmsProcessService.class);
-        serviceIntent.putExtra("inputExtra", "passing any text");
-        ContextCompat.startForegroundService(this, serviceIntent);
-    }
-    public void stopService(View v) {
-        Intent serviceIntent = new Intent(this, SmsProcessService.class);
-        stopService(serviceIntent);
     }
 }
