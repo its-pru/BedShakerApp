@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String TAG_MAIN = "BEDSHAKER_DEBUG_STATEMENTS_MAIN";
     public static final String SHARED_PREFS = "shared_Prefs";
 
    Switch switch1;
@@ -43,41 +44,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d("DARROW_A", "Main Activity started");
-        weakActivity = new WeakReference<>(MainActivity.this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("DARROW_A", "Main Activity resumed");
-        weakActivity = new WeakReference<>(MainActivity.this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("DARROW_A", "Main Activity paused");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d("DARROW_A", "Main Activity destroyed");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d("DARROW_A", "Main Activity stopped");
-    }
-
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("DARROW_A", "Main Activity created");
+        Log.d(TAG_MAIN, "Main Activity created");
         if(!foregroundServiceRunning()) {
             Intent serviceIntent = new Intent(this,
                     MyForegroundService.class);

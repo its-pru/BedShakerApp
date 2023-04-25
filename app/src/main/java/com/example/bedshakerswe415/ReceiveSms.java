@@ -18,7 +18,7 @@ import java.util.Arrays;
  */
 public class ReceiveSms extends BroadcastReceiver{
 
-    public static final String TAG_RECEIVE_SMS = "DARROW_A";
+    public static final String TAG_RECEIVE_SMS = "BEDSHAKER_DEBUG_STATEMENTS_RECEIVE";
 
     // If False, then the phone doesn't check the number sending the text, only the message
     public boolean checkSender = false;

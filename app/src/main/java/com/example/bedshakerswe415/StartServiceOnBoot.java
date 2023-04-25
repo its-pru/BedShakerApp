@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 
 public class StartServiceOnBoot extends BroadcastReceiver {
-    public static final String TAG_BOOT_BROADCAST_RECEIVER = "DARROW_A";
+    public static final String TAG_BOOT_BROADCAST_RECEIVER = "BEDSHAKER_DEBUG_STATEMENTS";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -31,16 +31,9 @@ public class StartServiceOnBoot extends BroadcastReceiver {
     }
 
     private void startServiceDirectly(Context context) {
-//        try {
-
             Log.d(TAG_BOOT_BROADCAST_RECEIVER, "BootService onReceive start service directly");
             Intent startServiceIntent = new Intent(context,MyForegroundService.class);
             context.startService(startServiceIntent);
-//            Thread.sleep(1000);
-//
-//        } catch (InterruptedException ex) {
-//            Log.e(TAG_BOOT_BROADCAST_RECEIVER, ex.getMessage(), ex);
-//        }
     }
 
 }
