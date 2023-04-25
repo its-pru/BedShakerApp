@@ -35,10 +35,33 @@ public class Switch{
 
     }
 
+    /**
+     * Turns on the shelly switch
+     * @return True if the HTTP call was successfully called
+     * @throws IOException
+     */
     public boolean TurnOn() throws IOException {
         Log.d(TAG_SWITCH, "Switch TurnOn beginning process...");
 
-        URL url = new URL("http://" + privateIP + "/rpc/Switch.Toggle?id=" + id);
+        URL url = new URL("http://" + privateIP + "/rpc/Switch.Toggle?id=" + id + "&on=true");
+        try {
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            conn.setRequestMethod("GET");
+            conn.connect();
+            int responseCode = conn.getResponseCode();
+
+            if(responseCode == 200) {
+                return true;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
+    public boolean TurnOff() throws IOException {
+        URL url = new URL("http://" + privateIP + "/rpc/Switch.Toggle?id=" + id + "&on=false");
         try {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
@@ -56,6 +79,28 @@ public class Switch{
         return false;
     }
 
+    public void repeater(int shakeTime, int timeBetweenShakes, int numOfShakes) throws IOException {
+        for (int i = 0; i<numOfShakes; i++) {
+            TurnOn();
+            try {
+                wait(shakeTime * 1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            TurnOff();
+            try {
+                wait(timeBetweenShakes * 1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     *
+     * @return String of switch private ip
+     * @throws IOException
+     */
     public String getStatus() throws IOException {
         String ip = "";
         URL url = new URL("http://192.168.33.1/rpc/WiFi.GetStatus?id=" + id);
@@ -93,6 +138,13 @@ public class Switch{
         return privateIP;
     }
 
+    /**
+     *
+     * @param ssid
+     * @param password
+     * @return True if HTTP call is successfully called
+     * @throws IOException
+     */
     public boolean setConfig(String ssid, String password) throws IOException {
         String urlstring = "http://192.168.33.1/rpc/WiFi.SetConfig?config={\"sta\":{\"ssid\":\""+ssid+"\",\"pass\":\""+password+"\",\"enable\":true}}";
         URL url = new URL(urlstring);
