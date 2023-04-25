@@ -137,7 +137,9 @@ public class ReceiveSms extends BroadcastReceiver{
                         public void run() {
                             try  {
                                 Switch switch2 = new Switch(0, sharedPreferences);
-                                switch2.TurnOn(); // Returns error with connect() when trying after boot
+//                                switch2.TurnOn(); // Returns error with connect() when trying after boot
+//                                switch2.repeater(1,1,5);
+                                switch2.TurnOn();
                                 Log.d(TAG_RECEIVE_SMS, "Switch On");
                             } catch (Exception e) {
                                 e.printStackTrace();
