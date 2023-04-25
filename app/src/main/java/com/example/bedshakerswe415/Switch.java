@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Switch{
-    public static final String TAG_SWITCH = "DARROW_A";
+    public static final String TAG_SWITCH = "BEDSHAKER_DEBUG_STATEMENTS_SWITCH";
     public void setPrivateIP(String privateIP) {
         this.privateIP = privateIP;
     }
@@ -36,7 +36,7 @@ public class Switch{
     }
 
     public boolean TurnOn() throws IOException {
-        Log.d("DARROW_A", "Switch TurnOn beginning process...");
+        Log.d(TAG_SWITCH, "Switch TurnOn beginning process...");
 
         URL url = new URL("http://" + privateIP + "/rpc/Switch.Toggle?id=" + id);
         try {

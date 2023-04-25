@@ -14,55 +14,11 @@ import androidx.annotation.Nullable;
 
 
 public class MyForegroundService extends Service {
-//    private ReceiveSms receiveSms = null;
-//
-//    public void onCreate() {
-//        super.onCreate();
-//
-//        IntentFilter intentFilter = new IntentFilter();
-//
-//        // Filters for only SMS messages
-//        intentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
-//
-//        // Set priority of broadcast receiver
-//        intentFilter.setPriority(100);
-//
-//        receiveSms = new ReceiveSms();
-//
-//        // Register broadcast receiver with intent filter object
-//        registerReceiver(receiveSms, intentFilter);
-//
-//        Log.d("DEBUG" , "Service is registered.");
-//    }
-//
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//
-//        // Unregister receiver when destroy service
-//        if (receiveSms != null) {
-//            unregisterReceiver(receiveSms);
-//            Log.d("DEBUG", "Service is unregistered.");
-//        }
-//    }
+    public static final String TAG_SERVICE = "BEDSHAKER_DEBUG_STATEMENTS_SERVICE";
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("DARROW_A", "Beginning Foreground Service");
-//        new Thread(
-//                new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        while (true) {
-//                            Log.e("Service", "Service is running...");
-//                            try {
-//                                Thread.sleep(2000);
-//                            } catch (InterruptedException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    }
-//                }
-//        ).start();
+        Log.d(TAG_SERVICE, "Beginning Foreground Service");
 
         final String CHANNELID = "Foreground Service ID";
         NotificationChannel channel = null;
