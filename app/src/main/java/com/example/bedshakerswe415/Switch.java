@@ -61,6 +61,8 @@ public class Switch{
     }
 
     public boolean TurnOff() throws IOException {
+        Log.d(TAG_SWITCH, "Switch TurnOff beginning process...");
+
         URL url = new URL("http://" + privateIP + "/rpc/Switch.Toggle?id=" + id + "&on=false");
         try {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -81,17 +83,22 @@ public class Switch{
 
     public void repeater(int shakeTime, int timeBetweenShakes, int numOfShakes) throws IOException {
         for (int i = 0; i<numOfShakes; i++) {
-            TurnOn();
-            try {
-                wait(shakeTime * 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            TurnOff();
-            try {
-                wait(timeBetweenShakes * 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            Log.d(TAG_SWITCH, "Repeater continueRunning = " + MainActivity.continueRunning);
+            if (MainActivity.continueRunning) {
+                TurnOn();
+                try {
+                    Thread.sleep(shakeTime * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                TurnOff();
+                try {
+                    Thread.sleep(timeBetweenShakes * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                return;
             }
         }
     }

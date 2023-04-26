@@ -32,6 +32,7 @@ import java.lang.ref.WeakReference;
 public class MainActivity extends AppCompatActivity {
     public static final String TAG_MAIN = "BEDSHAKER_DEBUG_STATEMENTS_MAIN";
     public static final String SHARED_PREFS = "shared_Prefs";
+    public static boolean continueRunning = true;
 
    Switch switch1;
 
@@ -171,7 +172,8 @@ public class MainActivity extends AppCompatActivity {
             editor.putString(NUMBER,receivedPhoneNo);
             editor.commit();
 
-            switch1.TurnOn();
+            continueRunning = false;
+//            switch1.TurnOff();
         }
         else {
             Toast.makeText(this, "Error: Message already sent or no message received", Toast.LENGTH_LONG).show();
