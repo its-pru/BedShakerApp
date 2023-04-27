@@ -61,10 +61,9 @@ public class WifiFragment extends Fragment {
      * The handler for when the add wifi button is clicked. Will set the text on
      * the page to notify the user if the connection succeeded. Disables button
      * after its clicked, re-enables after setConfig is run.
-     * @param myButton The button that is clicked
      * @param sharedPreferences The sharedPreferences being used to access saved data
      */
-    private void onConnectWifiButtonClicked(Button myButton, SharedPreferences sharedPreferences) {
+    private void onConnectWifiButtonClicked(SharedPreferences sharedPreferences) {
         MainActivity mainActivity = (MainActivity) getActivity();
 
         ProgressDialog progressSpinner = getCustomProgressDialog();
@@ -118,7 +117,7 @@ public class WifiFragment extends Fragment {
 
         // Creating an event onClickListener to trigger an event when the button is clicked.
         Button myButton = view.findViewById(R.id.wifiConnectButton);
-        myButton.setOnClickListener(v -> onConnectWifiButtonClicked(myButton, sharedPreferences));
+        myButton.setOnClickListener(v -> onConnectWifiButtonClicked(sharedPreferences));
 
         // Inflate the layout for this fragment
         return view;

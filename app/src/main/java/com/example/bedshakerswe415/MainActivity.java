@@ -108,8 +108,6 @@ public class MainActivity extends AppCompatActivity {
     private void setUpNavigationPages() {
         // Binding helps switch between menu pages
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        // Please note that this was changed
-        // setContentView(R.layout.activity_main);
         setContentView(binding.getRoot());
         // Show home fragment when app just opened.
         replaceFragment(new HomeFragment());
