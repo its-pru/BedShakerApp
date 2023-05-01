@@ -4,7 +4,6 @@ import static com.example.bedshakerswe415.ReceiveSms.NUMBER;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -20,8 +19,6 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.telephony.SmsManager;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bedshakerswe415.databinding.ActivityMainBinding;
@@ -32,6 +29,7 @@ import java.lang.ref.WeakReference;
 public class MainActivity extends AppCompatActivity {
     public static final String TAG_MAIN = "BEDSHAKER_DEBUG_STATEMENTS_MAIN";
     public static final String SHARED_PREFS = "shared_Prefs";
+    public static boolean continueRunning = true;
 
    Switch switch1;
 
@@ -39,10 +37,20 @@ public class MainActivity extends AppCompatActivity {
 
     public static WeakReference<MainActivity> weakActivity;
 
+    /**
+     * Returns a weak reference to the MainActivity.
+     * @return
+     */
     public static MainActivity getInstanceActivity() {
         return weakActivity.get();
     }
 
+    /**
+     * Called when the Activity is created.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG_MAIN, "Main Activity created");
@@ -110,8 +118,6 @@ public class MainActivity extends AppCompatActivity {
     private void setUpNavigationPages() {
         // Binding helps switch between menu pages
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        // Please note that this was changed
-        // setContentView(R.layout.activity_main);
         setContentView(binding.getRoot());
         // Show home fragment when app just opened.
         replaceFragment(new HomeFragment());
@@ -125,8 +131,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.wifi:
                     replaceFragment(new WifiFragment());
                     break;
-                case R.id.keywords:
-                    replaceFragment(new KeywordsFragment());
+                case R.id.settings:
+                    replaceFragment(new SettingsFragment());
                     break;
                 case R.id.contacts:
                     replaceFragment(new ContactsFragment());
@@ -157,6 +163,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sends an SMS message and turns off the switch.
+     * @throws IOException
+     */
     public void sendSMSandTurnOffSwitch() throws IOException {
         String SMS = "I WOKE UP!";
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
@@ -171,13 +181,18 @@ public class MainActivity extends AppCompatActivity {
             editor.putString(NUMBER,receivedPhoneNo);
             editor.commit();
 
-            switch1.TurnOn();
+            continueRunning = false;
+//            switch1.TurnOff();
         }
         else {
             Toast.makeText(this, "Error: Message already sent or no message received", Toast.LENGTH_LONG).show();
         }
     }
 
+    /**
+     * Checks if the foreground service is running.
+     * @return True if the service is running, false otherwise.
+     */
     public boolean foregroundServiceRunning(){
         ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for(ActivityManager.RunningServiceInfo service: activityManager.getRunningServices(Integer.MAX_VALUE)) {

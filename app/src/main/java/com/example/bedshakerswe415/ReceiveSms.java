@@ -132,16 +132,19 @@ public class ReceiveSms extends BroadcastReceiver{
 
                 try {
                     Log.d(TAG_RECEIVE_SMS, "Turning on Switch");
-                    Thread thread = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try  {
-                                Switch switch2 = new Switch(0, sharedPreferences);
-                                switch2.TurnOn(); // Returns error with connect() when trying after boot
-                                Log.d(TAG_RECEIVE_SMS, "Switch On");
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                    Thread thread = new Thread(() -> {
+                        try  {
+                            Switch switch2 = new Switch(0, sharedPreferences);
+                            // Retrieving values from shared preferences
+                            int shakeTime = sharedPreferences.getInt("shakeTime", 1);
+                            int timeBetweenShakes = sharedPreferences.getInt("timeBetweenShakes", 1);
+                            int numOfShakes = sharedPreferences.getInt("numOfShakes", 5);
+
+                            MainActivity.continueRunning = true;
+                            switch2.repeater(shakeTime,timeBetweenShakes,numOfShakes);
+                            Log.d(TAG_RECEIVE_SMS, "Switch On");
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     });
 

@@ -7,10 +7,10 @@
     <item android:title="Wifi"
         android:icon="@drawable/baseline_wifi_24"
         android:id="@+id/wifi"/>
-    <item android:title="Keywords"
-        android:icon="@drawable/baseline_textsms_24"
-        android:id="@+id/keywords"/>
     <item android:title="Contacts"
         android:icon="@drawable/baseline_group_24"
         android:id="@+id/contacts"/>
+    <item android:title="Settings"
+        android:icon="@drawable/baseline_settings_24"
+        android:id="@+id/settings"/>
 </menu>
