@@ -5,13 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
+import android.util.ArraySet;
 import android.util.Log;
 import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Handles what happens when an SMS message is received.
@@ -21,16 +25,12 @@ public class ReceiveSms extends BroadcastReceiver{
     public static final String TAG_RECEIVE_SMS = "BEDSHAKER_DEBUG_STATEMENTS_RECEIVE";
 
     // If False, then the phone doesn't check the number sending the text, only the message
-    public boolean checkSender = false;
+    public boolean checkSender = true;
     // Contains a list of numbers which the app registers as a person that can send the wake up text
-    private String[][] contacts = {
-            {"Android", "6505551212"},
-            {"Tommy", "17179453401"},
-    };
+    private ArrayList<String> contacts;
     // The text string which the sender should send to activate the device
     private String[] keywords = { "WAKE UP", "GET UP" };
     private String msgFrom = "";
-
     public static final String NUMBER = "number";
 
     /**
@@ -52,7 +52,7 @@ public class ReceiveSms extends BroadcastReceiver{
                 // There are two message formats 3gpp for GSM/UMTS/LTE messages, and 3gpp2 for CDMA/LTE messages
                 msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i], "3gpp2");
                 msgsInfo[i][0] = msgs[i].getMessageBody();
-                msgsInfo[i][1] = msgs[i].getOriginatingAddress().substring(1);
+                msgsInfo[i][1] = msgs[i].getOriginatingAddress();
             }
         }
 
@@ -65,8 +65,10 @@ public class ReceiveSms extends BroadcastReceiver{
      * @return True, if the sender is valid, otherwise false
      */
     private boolean isValidSender(String from) {
-        for (int i = 0; i < contacts.length; i++) {
-            if (from.equals(contacts[i][1])) {
+        for (int i = 0; i < contacts.size(); i++) {
+            String temp = contacts.get(i);
+            String contactPhone = temp.substring(temp.indexOf("(") + 1, temp.indexOf(")"));
+            if (from.contains(contactPhone)) {
                 return true;
             }
         }
@@ -116,7 +118,8 @@ public class ReceiveSms extends BroadcastReceiver{
         if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")) {
             Log.d(TAG_RECEIVE_SMS, "Received Text Message");
             SharedPreferences sharedPreferences = context.getSharedPreferences("shared_Prefs", Context.MODE_PRIVATE);
-
+            Set temp = sharedPreferences.getStringSet("contactsList", null); // retrieves stored contacts
+            contacts = (temp != null) ? new ArrayList<>(temp) : new ArrayList<>();
             Bundle bundle = intent.getExtras();
             String[][] messageInfo = extractMessageInfo(bundle);
             boolean isValidMessage = checkIfMsgValid(messageInfo);
