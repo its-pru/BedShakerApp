@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.ArraySet;
@@ -51,7 +52,7 @@ public class ReceiveSms extends BroadcastReceiver{
                 // There are two message formats 3gpp for GSM/UMTS/LTE messages, and 3gpp2 for CDMA/LTE messages
                 msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i], "3gpp2");
                 msgsInfo[i][0] = msgs[i].getMessageBody();
-                msgsInfo[i][1] = msgs[i].getOriginatingAddress().substring(1);
+                msgsInfo[i][1] = msgs[i].getOriginatingAddress();
             }
         }
 
@@ -64,10 +65,10 @@ public class ReceiveSms extends BroadcastReceiver{
      * @return True, if the sender is valid, otherwise false
      */
     private boolean isValidSender(String from) {
-        Log.d(TAG_RECEIVE_SMS, "From Phone Number: " + from);
         for (int i = 0; i < contacts.size(); i++) {
-            String contactPhone = contacts.get(i).substring(contacts.indexOf("(") + 1, contacts.indexOf(")"));
-            if (from.equals(contactPhone)) {
+            String temp = contacts.get(i);
+            String contactPhone = temp.substring(temp.indexOf("(") + 1, temp.indexOf(")"));
+            if (from.contains(contactPhone)) {
                 return true;
             }
         }
@@ -119,7 +120,6 @@ public class ReceiveSms extends BroadcastReceiver{
             SharedPreferences sharedPreferences = context.getSharedPreferences("shared_Prefs", Context.MODE_PRIVATE);
             Set temp = sharedPreferences.getStringSet("contactsList", null); // retrieves stored contacts
             contacts = (temp != null) ? new ArrayList<>(temp) : new ArrayList<>();
-
             Bundle bundle = intent.getExtras();
             String[][] messageInfo = extractMessageInfo(bundle);
             boolean isValidMessage = checkIfMsgValid(messageInfo);
