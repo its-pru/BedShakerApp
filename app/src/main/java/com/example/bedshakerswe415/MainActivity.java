@@ -154,12 +154,17 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 1000) {
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permission Granted!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Permission Not Granted", Toast.LENGTH_SHORT).show();
-                finish();
+            try {
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Permission Granted!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Permission Not Granted", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            } catch (Exception e) {
+                return;
             }
+
         }
     }
 

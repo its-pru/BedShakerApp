@@ -58,13 +58,13 @@ public class SettingsFragment extends Fragment {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("shared_Prefs", Context.MODE_PRIVATE);
         String shakeTime = "" + sharedPreferences.getInt("shakeTime", 1);
         String timeBetweenShakes = "" + sharedPreferences.getInt("timeBetweenShakes", 1);
-        String numOfShakes = "" + sharedPreferences.getInt("numOfShakes", 5);
+        String numOfShakes = "" + sharedPreferences.getInt("numOfShakes", 10);
 
         EditText[] views = getShakerSettingViews();
 
-        views[0].setHint(shakeTime);
-        views[1].setHint(timeBetweenShakes);
-        views[2].setHint(numOfShakes);
+        views[0].setText(shakeTime);
+        views[1].setText(timeBetweenShakes);
+        views[2].setText(numOfShakes);
     }
 
     /**
@@ -76,7 +76,6 @@ public class SettingsFragment extends Fragment {
         EditText timeBetweenShakes = (EditText) getView().findViewById(R.id.intervalAmountText);
         EditText numOfShakes = (EditText) getView().findViewById(R.id.numShakesText);
 
-        Log.d("BEDSHAKER_DEBUG_STATEMENTS_SETTINGS", "ShakeTime Hint: " + shakeTime.getHint().toString());
         return new EditText[] { shakeTime, timeBetweenShakes, numOfShakes };
     }
 
