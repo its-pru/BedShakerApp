@@ -60,6 +60,13 @@
             android:paddingBottom="12dp"
             android:text="Add Sender"
             android:textSize="18dp" />
+
+        <ListView
+            android:id="@+id/contactsList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="48dp"
+            android:layout_marginBottom="48dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
