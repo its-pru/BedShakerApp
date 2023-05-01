@@ -37,10 +37,20 @@ public class MainActivity extends AppCompatActivity {
 
     public static WeakReference<MainActivity> weakActivity;
 
+    /**
+     * Returns a weak reference to the MainActivity.
+     * @return
+     */
     public static MainActivity getInstanceActivity() {
         return weakActivity.get();
     }
 
+    /**
+     * Called when the Activity is created.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG_MAIN, "Main Activity created");
@@ -153,6 +163,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sends an SMS message and turns off the switch.
+     * @throws IOException
+     */
     public void sendSMSandTurnOffSwitch() throws IOException {
         String SMS = "I WOKE UP!";
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
@@ -175,6 +189,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Checks if the foreground service is running.
+     * @return True if the service is running, false otherwise.
+     */
     public boolean foregroundServiceRunning(){
         ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for(ActivityManager.RunningServiceInfo service: activityManager.getRunningServices(Integer.MAX_VALUE)) {
