@@ -25,8 +25,8 @@ Please look at the file, 415_BEDSHAKER_POSTER.pptx.pdf for more information rele
 - Manifest file
 
 ## Team members: 
-Evan Paules
-Thomas Prusak
-Hannah Moats
-Badreddine Bouhmam
-Luke Henry
+- Evan Paules
+- Thomas Prusak
+- Hannah Moats
+- Badreddine Bouhmam
+- Luke Henry
