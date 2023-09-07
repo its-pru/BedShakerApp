@@ -2,4 +2,4 @@
 
 ## Information:
 
-![Screenshot](screenshot.png)
+![Screenshot](415_BEDSHAKER_POSTER.pptx.pdf)
