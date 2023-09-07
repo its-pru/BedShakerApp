@@ -13,7 +13,7 @@ Please look at the file, 415_BEDSHAKER_POSTER.pptx.pdf for more information rele
 - UI Development - XML
 - Android Shared Preferences
 - Android Services (Brodcast Reciever)
-- Extreme Programming (Stand Up meetings, sprint review, etc.)
+- Extreme Programming (user stories, task board, stand up meetings, sprint review, pair programming, the planning game, etc.)
 - test coverage
 - Shelly API
 - Network Programming
